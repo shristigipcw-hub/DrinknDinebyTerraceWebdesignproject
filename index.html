@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Drink and Dine by Terrace | Rooftop Café & Restaurant</title>
+  <!-- Google Fonts & Tailwind + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- AOS Library for scroll animations (optional but elevates feel) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    /* custom overrides & smooth scroll */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0c10;
+      color: #ecedee;
+    }
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+    /* custom gold gradient & warm tones */
+    .gold-gradient {
+      background: linear-gradient(135deg, #FF4F38 0%, #B8860B 100%);
+    }
+    .gold-text {
+      color: #FF4F38;
+    }
+    .border-gold {
+      border-color: #FF4F38;
+    }
+    .bg-dark-card {
+      background: #111317;
+    }
+    .hover-gold-transition {
+      transition: all 0.3s ease;
+    }
+    .hover-gold-transition:hover {
+      color: #FF4F38;
+      border-color: #FF4F38;
+    }
+    /* custom navbar blur effect */
+    .navbar-blur {
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+    }
+    /* gallery grid masonry style */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 20px;
+      transition: transform 0.4s ease, box-shadow 0.4s;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+    .gallery-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5);
+    }
+    /* reservation btn pulse */
+    @keyframes gentlePulse {
+      0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    }
+    .reserve-pulse {
+      animation: gentlePulse 2s infinite;
+    }
+    /* instagram feed hover */
+    .insta-item {
+      transition: all 0.3s;
+    }
+    .insta-item:hover {
+      transform: scale(1.02);
+      filter: brightness(1.1);
+    }
+    /* custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e1f24;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D4AF37;
+      border-radius: 8px;
+    }
+    /* form focus */
+    input, textarea, select {
+      transition: all 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: #D4AF37;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- ================= STICKY NAVBAR ================= -->
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 navbar-blur border-b border-white/10">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+      <img src="image/logo.jpg" alt="Drink and Dine Logo" class="h-10 w-auto">
+        <span class="text-xl font-display font-semibold tracking-tight">Drink & Dine <span class="gold-text">by Terrace</span></span>
+      </div>
+      <div class="hidden md:flex space-x-8 text-sm font-medium">
+        <a href="#home" class="hover:text-[#D4AF37] transition">Home</a>
+        <a href="#about" class="hover:text-[#D4AF37] transition">About</a>
+        <a href="#menu" class="hover:text-[#D4AF37] transition">Menu</a>
+        <a href="#gallery" class="hover:text-[#D4AF37] transition">Gallery</a>
+        <a href="#contact" class="hover:text-[#D4AF37] transition">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#reservation-modal" id="navReserveBtn" class="hidden md:inline-block gold-gradient px-5 py-2 rounded-full text-black font-semibold text-sm shadow-lg hover:shadow-xl transition reserve-pulse">Reserve Table</a>
+        <button id="mobileMenuBtn" class="md:hidden text-2xl focus:outline-none"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-black/90 backdrop-blur-lg mt-2 py-5 flex flex-col items-center space-y-4 text-lg border-t border-white/10">
+      <a href="#home" class="hover:gold-text">Home</a>
+      <a href="#about" class="hover:gold-text">About</a>
+      <a href="#menu" class="hover:gold-text">Menu</a>
+      <a href="#gallery" class="hover:gold-text">Gallery</a>
+      <a href="#contact" class="hover:gold-text">Contact</a>
+      <a href="#reservation-modal" class="gold-gradient px-6 py-2 rounded-full text-black font-semibold">Reserve</a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO SECTION (HOME) ================= -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/2609224/pexels-photo-2609224.jpeg?auto=compress&cs=tinysrgb&w=1600'); background-size: cover;">
+    <div class="container mx-auto px-6 text-center py-32 md:py-40" data-aos="fade-up">
+      <h1 class="text-5xl md:text-7xl font-display font-bold leading-tight">Where Taste <br> Meets <span class="gold-text">Ambience</span></h1>
+      <p class="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mt-6">Rooftop luxury • Indoor elegance • Unforgettable evenings</p>
+      <div class="mt-10 flex flex-wrap justify-center gap-5">
+        <a href="#reservation-modal" class="gold-gradient px-8 py-3 rounded-full text-black font-semibold text-lg shadow-2xl hover:scale-105 transition transform reserve-pulse">Reserve a Table</a>
+        <a href="#menu" class="border border-gold-500 text-white px-8 py-3 rounded-full font-medium hover:bg-white/10 transition">Explore Menu</a>
+      </div>
+      <div class="mt-16 flex flex-wrap justify-center gap-8 text-sm md:text-base">
+        <div class="flex items-center gap-2"><i class="fas fa-utensils gold-text"></i> Multi-cuisine</div>
+        <div class="flex items-center gap-2"><i class="fas fa-cocktail gold-text"></i> Premium Beverages</div>
+        <div class="flex items-center gap-2"><i class="fas fa-tree gold-text"></i> Rooftop Terrace</div>
+        <div class="flex items-center gap-2"><i class="fas fa-champagne-glasses gold-text"></i> Celebrations</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT US ================= -->
+  <section id="about" class="py-20 md:py-28 bg-[#0e1015]">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div data-aos="fade-right">
+          <span class="gold-text text-sm font-semibold uppercase tracking-wider">Our Story</span>
+          <h2 class="text-4xl md:text-5xl font-display mt-2 mb-5">Rooftop <span class="gold-text">Elegance</span> in the heart of Noida</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">Drink and Dine by Terrace isn’t just a restaurant — it’s a sensory escape on the 4th floor of Spectrum Metro Mall. Designed for dreamers, lovers, and connoisseurs, our space blends lush greenery, warm golden lights, and breathtaking open-air seating.</p>
+          <p class="text-gray-300 leading-relaxed">Whether you crave an intimate date under fairy lights or a vibrant group celebration, our curated multi-cuisine menu and handcrafted mocktails elevate every moment. Experience Noida’s most aesthetic rooftop destination.</p>
+          <div class="mt-8 flex gap-6">
+            <div><i class="fas fa-map-marker-alt gold-text text-2xl"></i><p class="text-sm mt-1">4th floor, Spectrum Metro Mall, Sector 75, Noida</p></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+          <img src="image/img1.jpg" alt="interior" class="rounded-2xl shadow-2xl h-64 w-full object-cover">
+          <img src="image/img2.jpg" alt="rooftop" class="rounded-2xl shadow-2xl h-64 w-full object-cover mt-8">
+          <img src="image/img3.jpg" alt="greenery decor" class="rounded-2xl shadow-2xl h-64 w-full object-cover">
+          <img src="image/img4.jpg" alt="ambient lighting" class="rounded-2xl shadow-2xl h-64 w-full object-cover mt-8">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MENU SECTION ================= -->
+  <section id="menu" class="py-20 bg-[#0a0c10]">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="text-center mb-14" data-aos="fade-down">
+        <h2 class="text-4xl md:text-5xl font-display">Signature <span class="gold-text">Menu</span></h2>
+        <p class="text-gray-400 max-w-2xl mx-auto mt-3">Curated to delight every palate — from starters to sweet endings</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-7">
+        <!-- Starters -->
+        <div class="bg-dark-card rounded-2xl overflow-hidden shadow-xl hover:scale-[1.02] transition-all duration-300" data-aos="zoom-in">
+          <div class="h-40 bg-cover bg-center" style="background-image: url('image/starters.jpg');"></div>
+          <div class="p-5"><i class="fas fa-fire gold-text text-2xl"></i><h3 class="text-xl font-bold mt-2">Starters</h3><p class="text-gray-400 text-sm mt-1">Truffle Mushroom, Paneer Tikka, Peri-Peri Chicken, Loaded Nachos</p><span class="gold-text text-sm font-semibold">₹249 - ₹599</span></div>
+        </div>
+        <!-- Main Course -->
+        <div class="bg-dark-card rounded-2xl overflow-hidden shadow-xl hover:scale-[1.02] transition" data-aos="zoom-in" data-aos-delay="100">
+          <div class="h-40 bg-cover bg-center" style="background-image: url('image/indian-main-course.jpg');"></div>
+          <div class="p-5"><i class="fas fa-utensil-spoon gold-text text-2xl"></i><h3 class="text-xl font-bold mt-2">Main Course</h3><p class="text-gray-400 text-sm">Butter Chicken, Dal Makhani, Grilled Fish, Veg Biryani, Pasta Alfredo</p><span class="gold-text text-sm font-semibold">₹399 - ₹899</span></div>
+        </div>
+        <!-- Drinks & Mocktails -->
+        <div class="bg-dark-card rounded-2xl overflow-hidden shadow-xl hover:scale-[1.02] transition" data-aos="zoom-in" data-aos-delay="200">
+          <div class="h-40 bg-cover bg-center" style="background-image: url('image/beverages.jpg');"></div>
+          <div class="p-5"><i class="fas fa-cocktail gold-text text-2xl"></i><h3 class="text-xl font-bold mt-2">Beverages & Mocktails</h3><p class="text-gray-400 text-sm">Sunset Spritz, Berry Mojito, Classic Iced Latte, Fresh Lime Soda</p><span class="gold-text text-sm font-semibold">₹149 - ₹399</span></div>
+        </div>
+        <!-- Desserts -->
+        <div class="bg-dark-card rounded-2xl overflow-hidden shadow-xl hover:scale-[1.02] transition" data-aos="zoom-in" data-aos-delay="300">
+          <div class="h-40 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+          <div class="p-5"><i class="fas fa-ice-cream gold-text text-2xl"></i><h3 class="text-xl font-bold mt-2">Desserts</h3><p class="text-gray-400 text-sm">Molten Lava Cake, Cheesecake, Gulab Jamun, Tiramisu</p><span class="gold-text text-sm font-semibold">₹179 - ₹449</span></div>
+        </div>
+      </div>
+      <div class="text-center mt-12"><a href="#reservation-modal" class="inline-block border border-gold-500 gold-text px-7 py-2 rounded-full hover:bg-gold-500/10 transition">Full menu available upon request</a></div>
+    </div>
+  </section>
+
+  <!-- ================= GALLERY MASONRY ================= -->
+  <section id="gallery" class="py-20 bg-[#0e1015]">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12" data-aos="fade-up"><h2 class="text-4xl md:text-5xl font-display">Visual <span class="gold-text">Sanctuary</span></h2><p class="text-gray-400">Step into our aesthetic world – indoor luxury & open terrace bliss</p></div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="image/img5.jpg" alt="ceiling decor"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text">✨ Ceiling Greens & Lights</span></div></div>
+        <div class="gallery-item"><img src="image/img2.jpg" alt="rooftop flowers"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text">🌸 Rooftop Blooms</span></div></div>
+        <div class="gallery-item"><img src="image/img6.jpg" alt="aesthetic seating"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text">🪑 Indoor Luxury</span></div></div>
+        <div class="gallery-item"><img src="image/rooftop.jpg" alt="terrace view"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text">🌇 Terrace Ambience</span></div></div>
+        <div class="gallery-item"><img src="image/cozy.jpg" alt="table setting"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text">🍽️ Golden Hour Dinner</span></div></div>
+        <div class="gallery-item"><img src="image/img3.jpg" alt="lounge"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text">💫 Cozy Corners</span></div></div>
+        <div class="gallery-item"><img src="image/cinematic.jpg" alt="table setting"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text"> 🌇 Open Terrace Seating with Scenic View</span></div></div>
+        <div class="gallery-item"><img src="image/live music.jpg" alt="lounge"><div class="p-2 text-center bg-dark-card/80"><span class="text-xs gold-text">🎶 Live Music & Chill Vibes</span></div></div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONIALS + INSTAGRAM FEED ================= -->
+  <section class="py-20 bg-[#0a0c10]">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="grid md:grid-cols-2 gap-12">
+        <!-- Testimonials -->
+        <div data-aos="fade-right">
+          <h3 class="text-3xl font-display gold-text mb-6"><i class="fas fa-star-of-life"></i> Guest Love</h3>
+          <div class="space-y-6">
+            <div class="bg-dark-card p-5 rounded-xl border-l-4 border-gold-500"><p class="italic">"The best rooftop vibe in Noida! Amazing mocktails, ambient lighting, and the terrace is a dream. Perfect date spot."</p><div class="mt-3 flex items-center gap-2"><i class="fas fa-user-circle gold-text"></i><span class="font-semibold">— Ananya S.</span><div class="flex text-yellow-400 ml-2">★★★★★</div></div></div>
+            <div class="bg-dark-card p-5 rounded-xl border-l-4 border-gold-500"><p class="italic">"Incredible interiors and the multi-cuisine menu blew my mind. Highly recommend the truffle starters and sunset spritz."</p><div class="mt-3 flex items-center gap-2"><i class="fas fa-user-circle gold-text"></i><span class="font-semibold">— Rohan Mehta</span><div class="flex text-yellow-400 ml-2">★★★★★</div></div></div>
+            <div class="bg-dark-card p-5 rounded-xl border-l-4 border-gold-500"><p class="italic">"Every corner is Instagram-worthy. The staff is courteous and the rooftop seating with flowers is magical."</p><div class="mt-3 flex items-center gap-2"><i class="fas fa-user-circle gold-text"></i><span class="font-semibold">— Kriti & team</span><div class="flex text-yellow-400 ml-2">★★★★★</div></div></div>
+          </div>
+        </div>
+        <!-- Instagram Feed Preview -->
+        <div data-aos="fade-left">
+          <h3 class="text-3xl font-display gold-text mb-6"><i class="fab fa-instagram"></i> @dadbytheterrace </h3>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="insta-item overflow-hidden rounded-xl"><img src="image/img1.jpg" class="w-full h-28 object-cover"></div>
+            <div class="insta-item overflow-hidden rounded-xl"><img src="image/img2.jpg" class="w-full h-28 object-cover"></div>
+            <div class="insta-item overflow-hidden rounded-xl"><img src="image/img3.jpg" class="w-full h-28 object-cover"></div>
+            <div class="insta-item overflow-hidden rounded-xl"><img src="image/img4.jpg" class="w-full h-28 object-cover"></div>
+            <div class="insta-item overflow-hidden rounded-xl"><img src="image/img5.jpg" class="w-full h-28 object-cover"></div>
+            <div class="insta-item overflow-hidden rounded-xl"><img src="image/img6.jpg" class="w-full h-28 object-cover"></div>
+          </div>
+          <div class="mt-4 text-center"><a href="#" class="gold-text text-sm">Follow us for daily aesthetics →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT + MAP & FORM ================= -->
+  <section id="contact" class="py-20 bg-[#0e1015]">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="text-center mb-12"><h2 class="text-4xl md:text-5xl font-display">Let's <span class="gold-text">Connect</span></h2><p class="text-gray-400">Reservations, queries, or just saying hello — we’d love to hear.</p></div>
+      <div class="grid md:grid-cols-2 gap-12">
+        <!-- Form -->
+        <div class="bg-dark-card p-6 md:p-8 rounded-2xl shadow-2xl" data-aos="flip-left">
+          <h3 class="text-2xl font-semibold mb-5">Send Inquiry</h3>
+          <form id="contactForm" action="#" method="post">
+            <div class="mb-4"><input type="text" id="name" placeholder="Your Name" class="w-full bg-black/40 border border-gray-700 rounded-lg p-3 text-white" required></div>
+            <div class="mb-4"><input type="email" id="email" placeholder="Email Address" class="w-full bg-black/40 border border-gray-700 rounded-lg p-3 text-white" required></div>
+            <div class="mb-5"><textarea id="message" rows="4" placeholder="Table reservation / Special request..." class="w-full bg-black/40 border border-gray-700 rounded-lg p-3 text-white"></textarea></div>
+            <button type="submit" class="gold-gradient w-full py-3 rounded-lg text-black font-bold text-lg hover:shadow-2xl transition">Send Message</button>
+            <p id="formFeedback" class="text-sm mt-3 text-center gold-text"></p>
+          </form>
+        </div>
+        <!-- Info & Map -->
+        <div data-aos="fade-right">
+          <div class="mb-6"><i class="fas fa-phone-alt gold-text text-2xl"></i><p class="text-xl mt-1">+91 98765 43210</p></div>
+          <div class="mb-6"><i class="fas fa-clock gold-text text-2xl"></i><p class="mt-1">Opening Hours: 12:00 PM – 1:00 AM (Mon-Sun)</p></div>
+          <div class="mb-6"><i class="fas fa-location-dot gold-text text-2xl"></i><p class="mt-1">4th floor, Spectrum Metro mall, FOF 23D-24, Sector 75, Noida, UP</p></div>
+          <div class="rounded-xl overflow-hidden border border-gray-700 h-64 w-full"><iframe class="w-full h-full" src="https://maps.google.com/maps?q=Spectrum%20Metro%20Mall%2C%20Sector%2075%2C%20Noida&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy"></iframe></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservation Modal (Hidden popup) -->
+  <div id="reservation-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] items-center justify-center" onclick="if(event.target===this) closeModal()">
+    <div class="bg-[#111317] max-w-md w-full rounded-2xl p-6 shadow-2xl border border-gold-500/40 animate-fade-in" onclick="event.stopPropagation()">
+      <div class="flex justify-between items-center"><h3 class="text-2xl font-display gold-text">Reserve a Table</h3><i class="fas fa-times cursor-pointer text-gray-400 hover:text-white text-xl" onclick="closeModal()"></i></div>
+      <form id="reserveForm" class="mt-5 space-y-4">
+        <input type="text" placeholder="Full Name" class="w-full bg-black/60 border border-gray-600 rounded-lg p-2 text-white" required>
+        <input type="email" placeholder="Email" class="w-full bg-black/60 border border-gray-600 rounded-lg p-2 text-white" required>
+        <input type="tel" placeholder="Phone" class="w-full bg-black/60 border border-gray-600 rounded-lg p-2 text-white" required>
+        <input type="date" class="w-full bg-black/60 border border-gray-600 rounded-lg p-2 text-white" required>
+        <select class="w-full bg-black/60 border border-gray-600 rounded-lg p-2 text-white"><option>2 Guests</option><option>4 Guests</option><option>6+ Guests</option></select>
+        <button type="submit" class="gold-gradient w-full py-2 rounded-lg text-black font-bold">Confirm Booking</button>
+        <p id="reserveFeedback" class="text-xs text-center gold-text"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-8 border-t border-white/10 text-center text-gray-500 text-sm"><p>© 2026 Drink and Dine by Terrace — Rooftop Elegance | Crafted with <i class="fas fa-heart gold-text"></i> in Noida</p></footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true, offset: 100 });
+    // navbar background change on scroll
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if(window.scrollY > 50) navbar.classList.add('bg-black/90', 'backdrop-blur-md');
+      else navbar.classList.add('navbar-blur');
+    });
+    // mobile menu toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+    // close modal helpers
+    window.closeModal = function() { document.getElementById('reservation-modal').classList.add('hidden'); document.getElementById('reservation-modal').style.display = 'none'; };
+    function showReserveModal() { const modal = document.getElementById('reservation-modal'); modal.classList.remove('hidden'); modal.style.display = 'flex'; }
+    document.querySelectorAll('a[href="#reservation-modal"]').forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); showReserveModal(); }));
+    // contact form submission (demo)
+    document.getElementById('contactForm')?.addEventListener('submit', (e) => { e.preventDefault(); document.getElementById('formFeedback').innerText = "✨ Thanks! We’ll reach out soon."; e.target.reset(); });
+    document.getElementById('reserveForm')?.addEventListener('submit', (e) => { e.preventDefault(); document.getElementById('reserveFeedback').innerText = "✅ Table request sent! We'll confirm shortly."; setTimeout(()=>closeModal(),2000); });
+    // close modal if click outside
+    document.getElementById('reservation-modal')?.addEventListener('click', function(e){ if(e.target === this) closeModal(); });
+  </script>
+</body>
+</html>
